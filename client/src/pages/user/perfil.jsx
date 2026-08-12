@@ -58,7 +58,7 @@ export default function Perfil() {
       if (response.data.success) {
         setUser(response.data.user);
         setIsEditing(false);
-        navigate("/");
+        navigate("/perfil");
       }
     } catch (error) {
       console.error(error);
