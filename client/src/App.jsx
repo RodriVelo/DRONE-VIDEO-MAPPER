@@ -16,7 +16,7 @@ import ProtectedRoute from "./utils/protectedRoute";
 import Perfil from "./pages/user/perfil";
 import PanelAdminUsers from "./pages/admin/panelAdminUsers";
 import Aplicacion from "./pages/aplicacion/Aplicacion";
-
+import FOVCalibrator from "./pages/calibrador/calibrador";
 
 import { AuthProvider } from "./utils/authContext";
 
@@ -64,6 +64,10 @@ function App() {
           <Route path="/aplicacion" element={
             <ProtectedRoute >
               <Aplicacion />
+
+            </ProtectedRoute> } /><Route path="/calibrador" element={
+            <ProtectedRoute >
+              <FOVCalibrator />
             </ProtectedRoute> } />
         </Routes>
 
