@@ -310,41 +310,6 @@ function HowItWorks() {
   );
 }
 
-/* ---------------------------------------------------------
-   Final CTA
---------------------------------------------------------- */
-function FinalCTA() {
-  return (
-    <section className="border-t border-white/[0.06] px-6 py-20">
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.5 }}
-        className="mx-auto max-w-2xl rounded-2xl border border-white/[0.07] bg-[#191b25] px-8 py-14 text-center"
-      >
-        <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-          Convertí tus vuelos en información útil.
-        </h2>
-        <p className="mx-auto mt-3 max-w-md text-[15px] leading-relaxed text-white/45">
-          Una herramienta pensada para trabajar con video y datos de
-          telemetría de drones desde un mismo lugar.
-        </p>
-        <a
-          href="/app"
-          className="group mt-7 inline-flex items-center gap-1.5 rounded-lg bg-[#4ade80] px-5 py-2.5 text-sm font-semibold text-[#0f1016] transition-colors hover:bg-[#3fce72]"
-        >
-          Comenzar ahora
-          <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-        </a>
-      </motion.div>
-    </section>
-  );
-}
-
-/* ---------------------------------------------------------
-   Footer
---------------------------------------------------------- */
 
 /* ---------------------------------------------------------
    Home
@@ -356,7 +321,6 @@ export default function Home() {
       <main>
         <Hero />
         <HowItWorks />
-        <FinalCTA />
       </main>
 \
     </div>

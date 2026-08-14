@@ -11,6 +11,9 @@ import {
   Zap,
   Menu,
   X,
+  Route, 
+  SlidersVertical,
+
 } from "lucide-react";
 import { useAuth } from "../utils/authContext";
 
@@ -71,7 +74,10 @@ export default function Header() {
           <Home size={14} /> Home
         </NavButton>
         <NavButton onClick={() => go("/aplicacion")}>
-          <Home size={14} /> App
+          <Route  size={14} /> VideoMap
+        </NavButton>
+        <NavButton onClick={() => go("/calibrador")}>
+          <SlidersVertical size={14} /> FOVCalibrador
         </NavButton>
         {user && (
           <NavButton onClick={() => go("/perfil")}>

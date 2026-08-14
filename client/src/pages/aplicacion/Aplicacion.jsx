@@ -254,6 +254,20 @@ function download(filename, content, type) {
 }
 
 /* ════════════════════════════════════════════
+   ESTILO GLOBAL COMPARTIDO (scrollbar unificada
+   con el FOV Calibrator — misma clase "fov-scroll")
+   ════════════════════════════════════════════ */
+function ScrollbarStyle() {
+  return (
+    <style>{`
+      .fov-scroll::-webkit-scrollbar{width:4px;}
+      .fov-scroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:2px;}
+      .fov-scroll{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.15) transparent;}
+    `}</style>
+  );
+}
+
+/* ════════════════════════════════════════════
    SUB-COMPONENTES DE UI
    ════════════════════════════════════════════ */
 function ParamRow({ label, tag, children }) {
@@ -1187,10 +1201,11 @@ export default function App() {
      RENDER
      ════════════════════════════════════════════ */
   const numCats = cfg.numCats !== undefined ? cfg.numCats : 3;
-  const fovHradFoot = (fovH * Math.PI) / 180;
 
   return (
-    <div className=" w-full flex flex-col bg-[#0f1117] text-[#e8eaf0] text-sm overflow-hidden font-sans">
+    <div className="h-screen w-full flex flex-col bg-[#0f1117] text-[#e8eaf0] text-sm overflow-hidden font-sans">
+      <ScrollbarStyle />
+
       {/* HEADER */}
       <header className="bg-[#1a1d27] border-b border-white/10 px-[14px] py-[8px] flex items-center gap-[10px] flex-shrink-0">
         <div>
@@ -1217,7 +1232,7 @@ export default function App() {
       <div className="flex flex-1 overflow-hidden">
         {/* PANEL IZQUIERDO */}
         <div className="w-[280px] flex-shrink-0 bg-[#1a1d27] border-r border-white/10 flex flex-col overflow-hidden">
-          <div className="overflow-y-auto flex-shrink-0 max-h-[55vh]">
+          <div className="fov-scroll overflow-y-auto flex-shrink-0 max-h-[55vh]">
             {/* Archivos */}
             <div className="px-3 py-2 border-b border-white/10">
               <h3 className="text-[9px] font-bold tracking-[1.5px] uppercase text-[#8b90a8] mb-[7px]">
@@ -1379,7 +1394,7 @@ export default function App() {
           <div className="px-3 pt-2 pb-[6px]">
             <h3 className="text-[9px] font-bold tracking-[1.5px] uppercase text-[#8b90a8]">Registros</h3>
           </div>
-          <div className="flex-1 overflow-y-auto min-h-[80px]">
+          <div className="fov-scroll flex-1 overflow-y-auto min-h-[80px]">
             {!trees.length ? (
               <div className="px-4 py-6 text-center text-[#8b90a8] text-[12px] leading-[1.8]">
                 Cargá el video y el SRT,
@@ -1538,7 +1553,7 @@ export default function App() {
       {/* MODAL REGISTRO */}
       {modalOpen && pendingTree && (
         <div className="fixed inset-0 bg-black/[0.78] z-50 flex items-center justify-center">
-          <div className="bg-[#1a1d27] border border-white/15 rounded-[14px] p-5 w-[340px] max-h-[90vh] overflow-y-auto">
+          <div className="fov-scroll bg-[#1a1d27] border border-white/15 rounded-[14px] p-5 w-[340px] max-h-[90vh] overflow-y-auto">
             <h3 className="text-[14px] mb-[10px] flex items-center gap-2">Registrar objeto</h3>
             <div className="bg-[#22263a] rounded-lg px-3 py-2 font-mono text-[11px] text-[#60a5fa] mb-[2px] leading-[1.9]">
               Lat: <b>{pendingTree.coords.lat.toFixed(7)}</b>
@@ -1630,7 +1645,7 @@ export default function App() {
       {/* MODAL CONFIGURACIÓN */}
       {configOpen && cfgDraft && (
         <div className="fixed inset-0 bg-black/[0.78] z-50 flex items-center justify-center">
-          <div className="bg-[#1a1d27] border border-white/15 rounded-[14px] p-5 w-[520px] max-h-[90vh] overflow-y-auto">
+          <div className="fov-scroll bg-[#1a1d27] border border-white/15 rounded-[14px] p-5 w-[520px] max-h-[90vh] overflow-y-auto">
             <h3 className="text-[14px] mb-[10px] flex items-center gap-2">⚙ Configuración del proyecto</h3>
 
             <div className="mb-4">
