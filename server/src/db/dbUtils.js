@@ -38,11 +38,6 @@ CREATE TABLE IF NOT EXISTS usuario (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 `;
 
-
-
-
-
-
 const insertDefaultRoles = async () => {
   try {
 
@@ -86,9 +81,6 @@ const createTable = async (tableName, query) => {
 
   }
 };
-
-
-
 
 
 const createAllTables = async () => {

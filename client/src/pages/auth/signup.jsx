@@ -139,9 +139,9 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex bg-white">
+    <div className="min-h-screen w-full flex bg-[#0f1016]">
       {/* ---------- Panel izquierdo: identidad de marca ---------- */}
-      <div className="relative hidden lg:flex lg:w-[42%] items-center justify-center overflow-hidden bg-[#0E2818]">
+      <div className="relative hidden lg:flex lg:w-[46%] items-center justify-center overflow-hidden bg-[#0E2818]">
         {/* Ondas de fondo */}
         <svg
           className="absolute inset-0 w-full h-full opacity-90"
@@ -209,15 +209,15 @@ const SignUp = () => {
         <div className="w-full max-w-lg">
           {/* Logo visible solo en mobile */}
           <div className="lg:hidden flex items-center gap-2 mb-8">
-            <span className="w-8 h-8 rounded-lg bg-[#0E2818] text-white flex items-center justify-center text-sm font-bold">
+            <span className="w-8 h-8 rounded-lg bg-[#0B2A4A] text-white flex items-center justify-center text-sm font-bold">
               ◆
             </span>
-            <span className="text-xs tracking-[0.25em] text-[#0E2818]/70 uppercase font-medium">
+            <span className="text-xs tracking-[0.25em] text-[#0B2A4A]/70 uppercase font-medium">
               DRONE VIDEO MAPPER
             </span>
           </div>
 
-          <h2 className="text-3xl font-bold text-[#0E2818] mb-2">
+          <h2 className="text-3xl font-bold text-[#4ade80] mb-2">
             Registrarse
           </h2>
           <p className="text-slate-500 text-sm mb-8">
@@ -242,7 +242,7 @@ const SignUp = () => {
                     className={`w-full rounded-xl pl-10 pr-4 py-3 text-sm text-slate-800 placeholder:text-slate-400 outline-none transition-all bg-slate-50 border ${
                       formErrors.nombre
                         ? "border-red-400 focus:ring-2 focus:ring-red-200"
-                        : "border-slate-200 focus:border-[#3bad65] focus:ring-2 focus:ring-[#4ade80]/20"
+                        : "border-slate-200 focus:border-[#1E5FA8] focus:ring-2 focus:ring-[#1E5FA8]/15"
                     }`}
                   />
                 </div>
@@ -268,7 +268,7 @@ const SignUp = () => {
                     className={`w-full rounded-xl pl-10 pr-4 py-3 text-sm text-slate-800 placeholder:text-slate-400 outline-none transition-all bg-slate-50 border ${
                       formErrors.apellido
                         ? "border-red-400 focus:ring-2 focus:ring-red-200"
-                        : "border-slate-200 focus:border-[#3bad65] focus:ring-2 focus:ring-[#4ade80]/20"
+                        : "border-slate-200 focus:border-[#1E5FA8] focus:ring-2 focus:ring-[#1E5FA8]/15"
                     }`}
                   />
                 </div>
@@ -296,7 +296,7 @@ const SignUp = () => {
                   className={`w-full rounded-xl pl-10 pr-4 py-3 text-sm text-slate-800 placeholder:text-slate-400 outline-none transition-all bg-slate-50 border ${
                     formErrors.nro_documento
                       ? "border-red-400 focus:ring-2 focus:ring-red-200"
-                      : "border-slate-200 focus:border-[#3bad65] focus:ring-2 focus:ring-[#4ade80]/20"
+                      : "border-slate-200 focus:border-[#1E5FA8] focus:ring-2 focus:ring-[#1E5FA8]/15"
                   }`}
                 />
               </div>
@@ -323,7 +323,7 @@ const SignUp = () => {
                   className={`w-full rounded-xl pl-10 pr-4 py-3 text-sm text-slate-800 placeholder:text-slate-400 outline-none transition-all bg-slate-50 border ${
                     formErrors.email
                       ? "border-red-400 focus:ring-2 focus:ring-red-200"
-                      : "border-slate-200 focus:border-[#3bad65] focus:ring-2 focus:ring-[#4ade80]/20"
+                      : "border-slate-200 focus:border-[#1E5FA8] focus:ring-2 focus:ring-[#1E5FA8]/15"
                   }`}
                 />
               </div>
@@ -350,7 +350,7 @@ const SignUp = () => {
                   className={`w-full rounded-xl pl-10 pr-4 py-3 text-sm text-slate-800 placeholder:text-slate-400 outline-none transition-all bg-slate-50 border ${
                     formErrors.telefono
                       ? "border-red-400 focus:ring-2 focus:ring-red-200"
-                      : "border-slate-200 focus:border-[#3bad65] focus:ring-2 focus:ring-[#4ade80]/20"
+                      : "border-slate-200 focus:border-[#1E5FA8] focus:ring-2 focus:ring-[#1E5FA8]/15"
                   }`}
                 />
               </div>
@@ -378,7 +378,7 @@ const SignUp = () => {
                     className={`w-full rounded-xl pl-10 pr-4 py-3 text-sm text-slate-800 placeholder:text-slate-400 outline-none transition-all bg-slate-50 border ${
                       formErrors.contrasena
                         ? "border-red-400 focus:ring-2 focus:ring-red-200"
-                        : "border-slate-200 focus:border-[#3bad65] focus:ring-2 focus:ring-[#4ade80]/20"
+                        : "border-slate-200 focus:border-[#1E5FA8] focus:ring-2 focus:ring-[#1E5FA8]/15"
                     }`}
                   />
                 </div>
@@ -404,7 +404,7 @@ const SignUp = () => {
                     className={`w-full rounded-xl pl-10 pr-4 py-3 text-sm text-slate-800 placeholder:text-slate-400 outline-none transition-all bg-slate-50 border ${
                       formErrors.confirmar_contrasena
                         ? "border-red-400 focus:ring-2 focus:ring-red-200"
-                        : "border-slate-200 focus:border-[#3bad65] focus:ring-2 focus:ring-[#4ade80]/20"
+                        : "border-slate-200 focus:border-[#1E5FA8] focus:ring-2 focus:ring-[#1E5FA8]/15"
                     }`}
                   />
                 </div>
@@ -418,7 +418,7 @@ const SignUp = () => {
 
             <button
               type="submit"
-              className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#0E2818] py-3 font-semibold text-white shadow-lg shadow-[#0E2818]/20 transition-all duration-200 hover:bg-[#163a24] active:scale-[0.98]"
+              className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#4ade80] py-3 font-semibold text-white shadow-lg shadow-[#0B2A4A]/20 transition-all duration-200 hover:bg-[#15803d] active:scale-[0.98]"
             >
               Registrarse
               <ArrowRight className="w-4 h-4" />
@@ -429,7 +429,7 @@ const SignUp = () => {
             ¿Ya tienes una cuenta?{" "}
             <Link
               to="/login"
-              className="font-semibold text-[#3bad65] hover:underline"
+              className="font-semibold text-[#4ade80] hover:underline"
             >
               Ingresar
             </Link>

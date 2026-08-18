@@ -183,8 +183,9 @@ export default function PanelAdminUsers() {
   useEffect(() => {
     const obtenerUsuarios = async () => {
       try {
-        const res = await axios.get(`${API}/panelAdmin/getUsers`);
-        console.log(res.data.users)
+        const res = await axios.get(`${API}/panelAdmin/getUsers`, {
+          withCredentials: true,
+        });
         if (res.data.success) setUsuarios(res.data.users);
       } catch (error) {
         console.error("Error al obtener usuarios:", error);
@@ -200,7 +201,9 @@ export default function PanelAdminUsers() {
     try {
       const res = await axios.patch(
         `${API}/panelAdmin/users/${id}/cambiarEstado`,
-        { estado: nuevoEstado }
+        { estado: nuevoEstado }, {
+          withCredentials: true,
+        }
       );
       if (res.data.success) {
         setUsuarios((prev) =>

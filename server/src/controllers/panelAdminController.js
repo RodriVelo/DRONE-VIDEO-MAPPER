@@ -17,7 +17,6 @@ export const getStats = async (req, res) => {
 };
 
 export const getUsers = async (req, res) => {
-
   try {
     const response = await getUsersModel();
 

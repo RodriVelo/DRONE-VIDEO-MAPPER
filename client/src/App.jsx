@@ -38,37 +38,46 @@ function App() {
         <Header />
 
         <Routes>
-          <Route path="/" element={<Home />} />
+         <Route path="/" element={<Home />} />
+<Route path="/signup" element={<Signup />} />
+<Route path="/login" element={<Login />} />
 
-          <Route path="/signup" element={<Signup />} />
+{/* Con sesión alcanza, sin importar membresía */}
+<Route
+  path="/perfil"
+  element={
+    <ProtectedRoute>
+      <Perfil />
+    </ProtectedRoute>
+  }
+/>
 
-          <Route path="/login" element={<Login />} />
+<Route
+  path="/users"
+  element={
+    <ProtectedRoute rolPermitido="admin">
+      <PanelAdminUsers />
+    </ProtectedRoute>
+  }
+/>
 
-          <Route
-            path="/perfil"
-            element={
-              <ProtectedRoute>
-                <Perfil />
-              </ProtectedRoute>
-            }
-          />
-         
-          <Route
-            path="/users"
-            element={
-              <ProtectedRoute rolPermitido="admin">
-                <PanelAdminUsers />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/aplicacion" element={
-            <ProtectedRoute >
-              <Aplicacion />
-
-            </ProtectedRoute> } /><Route path="/calibrador" element={
-            <ProtectedRoute >
-              <FOVCalibrator />
-            </ProtectedRoute> } />
+{/* Exigen membresía activa */}
+<Route
+  path="/aplicacion"
+  element={
+    <ProtectedRoute requireActive>
+      <Aplicacion />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/calibrador"
+  element={
+    <ProtectedRoute requireActive>
+      <FOVCalibrator />
+    </ProtectedRoute>
+  }
+/>
         </Routes>
 
         <Footer />

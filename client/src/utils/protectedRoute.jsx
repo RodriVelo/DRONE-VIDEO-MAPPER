@@ -3,9 +3,10 @@ import { Navigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { LoaderCircle } from "lucide-react";
 
-const ProtectedRoute = ({ children, rolPermitido }) => {
+const ProtectedRoute = ({ children, rolPermitido, requireActive = false }) => {
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [accessDenied, setAccessDenied] = useState(false); // logueado pero sin permiso suficiente
   const [user, setUser] = useState(null);
 
   const location = useLocation();
@@ -13,46 +14,43 @@ const ProtectedRoute = ({ children, rolPermitido }) => {
   const checkAuth = async () => {
     try {
       setLoading(true);
+      setAccessDenied(false);
 
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/auth/me`,
-        {
-          withCredentials: true,
-        },
+        { withCredentials: true },
       );
 
       const userData = response.data.user;
 
-      // Verificar roles si se especifican
+      // Verificar roles si se especifican (el admin siempre pasa)
       if (rolPermitido) {
         const rolesPermitidos = Array.isArray(rolPermitido)
           ? rolPermitido
           : [rolPermitido];
 
-        let tienePermiso = false;
-
-        for (const rol of rolesPermitidos) {
-          // El admin siempre pasa, sin importar qué rol pida la ruta
-          if (userData.rol === "admin") {
-            tienePermiso = true;
-            break;
-          }
-
-          // Para cualquier otro rol, tiene que coincidir exactamente
-          if (rol === userData.rol) {
-            tienePermiso = true;
-            break;
-          }
-        }
+        const tienePermiso =
+          userData.rol === "admin" || rolesPermitidos.includes(userData.rol);
 
         if (!tienePermiso) {
-          setIsAuthenticated(false);
+          setIsAuthenticated(true); // está logueado...
+          setAccessDenied(true);    // ...pero no puede ver esta ruta
+          setUser(userData);
           return;
         }
       }
 
+      // Verificar membresía activa si la ruta lo exige (admin siempre pasa)
+      if (requireActive && userData.rol !== "admin" && userData.estado !== "activo") {
+        setIsAuthenticated(true);
+        setAccessDenied(true);
+        setUser(userData);
+        return;
+      }
+
       setUser(userData);
       setIsAuthenticated(true);
+      setAccessDenied(false);
     } catch (error) {
       console.log("No autenticado", error);
       setIsAuthenticated(false);
@@ -65,6 +63,7 @@ const ProtectedRoute = ({ children, rolPermitido }) => {
   useEffect(() => {
     checkAuth();
   }, [location.pathname]);
+
 
   // Loading
   if (loading) {
@@ -97,12 +96,17 @@ const ProtectedRoute = ({ children, rolPermitido }) => {
     );
   }
 
-  // No autenticado (o sin el rol correcto)
+
+  // Sin sesión → login
   if (!isAuthenticated) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
-  // Autenticado
+  // Con sesión pero sin permiso/membresía suficiente → perfil, no login
+  if (accessDenied) {
+    return <Navigate to="/perfil" replace state={{ from: location }} />;
+  }
+
   return children;
 };
 

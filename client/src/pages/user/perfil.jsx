@@ -48,6 +48,7 @@ export default function Perfil() {
     { label: "Nro. Documento", value: user.nro_documento, icon: FileText },
     { label: "Email", value: user.email, icon: Mail },
     { label: "Teléfono", value: user.telefono, icon: Phone },
+
   ];
 
   async function handleSaveProfile(updatedData) {
@@ -104,9 +105,18 @@ export default function Perfil() {
             </h1>
             <p className="mt-1 text-slate-500 text-sm">Perfil de usuario</p>
 
-            <span className="inline-flex items-center gap-1.5 mt-4 text-[#4ade80] text-xs font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#4ade80] animate-pulse" />
-              Activo
+          
+            <span
+              className={`inline-flex items-center gap-1.5 mt-4 text-xs font-medium capitalize ${
+                user.estado === "activo" ? "text-[#4ade80]" : "text-yellow-400"
+              }`}
+            >
+              <span
+                className={`w-1.5 h-1.5 rounded-full animate-pulse ${
+                  user.estado === "activo" ? "bg-[#4ade80]" : "bg-yellow-400"
+                }`}
+              />
+              {user.estado}
             </span>
 
             <div className="w-full h-px bg-slate-800 my-6" />

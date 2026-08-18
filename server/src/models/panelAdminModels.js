@@ -43,6 +43,7 @@ export const getStatsModel = async () => {
 };
 
 export const getUsersModel = async () => {
+
   try {
     const [rows] = await pool.query(
       `SELECT
