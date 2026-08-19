@@ -71,6 +71,7 @@ export const userLogin = async (req, res) => {
       apellido: result.user.apellido,
       email: result.user.email,
       rol: result.user.rol,
+      estado: result.user.estado,
     });
 
     res.cookie("token", token, {
@@ -108,6 +109,7 @@ export const googleCallback = async (req, res) => {
         apellido: req.user.apellido,
         email: req.user.email,
         rol: req.user.rol,
+        estado: req.user.estado,
       },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
