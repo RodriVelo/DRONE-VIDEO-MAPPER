@@ -38,6 +38,81 @@ CREATE TABLE IF NOT EXISTS usuario (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 `;
 
+const membresiaTableQuery = `
+CREATE TABLE IF NOT EXISTS membresia (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    descripcion VARCHAR(255),
+    precio DECIMAL(10,2) NOT NULL,
+    duracion_dias INT NOT NULL,
+    activo BOOLEAN NOT NULL DEFAULT TRUE,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+`;
+
+const usuarioMembresiaTableQuery = `
+CREATE TABLE IF NOT EXISTS usuario_membresia (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    id_membresia INT NOT NULL,
+
+    fecha_inicio DATETIME NOT NULL,
+    fecha_fin DATETIME NOT NULL,
+    estado ENUM('activa', 'vencida', 'cancelada') NOT NULL DEFAULT 'activa',
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_um_usuario
+        FOREIGN KEY (id_usuario)
+        REFERENCES usuario(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_um_membresia
+        FOREIGN KEY (id_membresia)
+        REFERENCES membresia(id)
+        ON DELETE RESTRICT,
+
+    INDEX idx_um_usuario_estado (id_usuario, estado)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+`;
+
+const pagoTableQuery = `
+CREATE TABLE IF NOT EXISTS pago (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    id_membresia INT NOT NULL,
+
+    monto DECIMAL(10,2) NOT NULL,
+    metodo_pago VARCHAR(50) DEFAULT 'mercadopago',
+
+    mp_preference_id VARCHAR(255),
+    mp_payment_id VARCHAR(255) UNIQUE,
+    mp_status VARCHAR(50),
+    mp_status_detail VARCHAR(100),
+
+    estado ENUM('pendiente', 'aprobado', 'rechazado') NOT NULL DEFAULT 'pendiente',
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_pago_usuario
+        FOREIGN KEY (id_usuario)
+        REFERENCES usuario(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_pago_membresia
+        FOREIGN KEY (id_membresia)
+        REFERENCES membresia(id)
+        ON DELETE RESTRICT
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+`;
+
 const insertDefaultRoles = async () => {
   try {
 
@@ -67,6 +142,37 @@ const insertDefaultRoles = async () => {
   }
 };
 
+const insertDefaultMembresias = async () => {
+  try {
+
+    const [rows] = await pool.query(
+      "SELECT COUNT(*) as count FROM membresia"
+    );
+
+    if (rows[0].count === 0) {
+
+      await pool.query(`
+        INSERT INTO membresia (nombre, descripcion, precio, duracion_dias)
+        VALUES
+          ('mensual', 'Acceso completo por 30 días', 5000.00, 30),
+          ('anual', 'Acceso completo por 365 días', 45000.00, 365)
+      `);
+
+      console.log("✅ Membresías insertadas");
+
+    } else {
+
+      console.log("ℹ️ Las membresías ya existen");
+
+    }
+
+  } catch (error) {
+
+    console.log("❌ Error insertando membresías:", error);
+
+  }
+};
+
 const createTable = async (tableName, query) => {
   try {
 
@@ -91,6 +197,14 @@ const createAllTables = async () => {
     await insertDefaultRoles();
 
     await createTable("usuario", usuarioTableQuery);
+
+    await createTable("membresia", membresiaTableQuery);
+
+    await insertDefaultMembresias();
+
+    await createTable("usuario_membresia", usuarioMembresiaTableQuery);
+
+    await createTable("pago", pagoTableQuery);
 
     console.log("✅ Todas las tablas listas");
 

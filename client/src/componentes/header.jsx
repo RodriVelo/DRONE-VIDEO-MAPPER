@@ -13,6 +13,7 @@ import {
   X,
   Route, 
   SlidersVertical,
+  CreditCard,
 
 } from "lucide-react";
 import { useAuth } from "../utils/authContext";
@@ -82,6 +83,11 @@ export default function Header() {
         {user && (
           <NavButton onClick={() => go("/perfil")}>
             <User size={14} /> Perfil
+          </NavButton>
+        )}
+        {user && (
+          <NavButton onClick={() => go("/planes")}>
+            <CreditCard size={14} /> Planes
           </NavButton>
         )}
         {/* {user?.rol === "cliente" && (
@@ -170,6 +176,11 @@ export default function Header() {
             {user && (
               <DropdownItem icon={<User size={16} />} onClick={() => go("/perfil")}>
                 Perfil
+              </DropdownItem>
+            )}
+            {user && user.rol !== "admin" && (
+              <DropdownItem icon={<CreditCard size={16} />} onClick={() => go("/planes")}>
+                Planes
               </DropdownItem>
             )}
             {user?.rol === "admin" && (

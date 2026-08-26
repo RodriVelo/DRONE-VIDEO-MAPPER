@@ -3,10 +3,15 @@ import { Navigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { LoaderCircle } from "lucide-react";
 
+// Cada cuánto se vuelve a chequear la membresía mientras el usuario ya
+// está adentro de una página protegida (ms). Ajustable.
+const INTERVALO_CHEQUEO_MEMBRESIA_MS = 60_000;
+
 const ProtectedRoute = ({ children, rolPermitido, requireActive = false }) => {
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [accessDenied, setAccessDenied] = useState(false); // logueado pero sin permiso suficiente
+  const [denyReason, setDenyReason] = useState(null); // "rol" | "membresia"
   const [user, setUser] = useState(null);
 
   const location = useLocation();
@@ -15,6 +20,7 @@ const ProtectedRoute = ({ children, rolPermitido, requireActive = false }) => {
     try {
       setLoading(true);
       setAccessDenied(false);
+      setDenyReason(null);
 
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/auth/me`,
@@ -35,17 +41,26 @@ const ProtectedRoute = ({ children, rolPermitido, requireActive = false }) => {
         if (!tienePermiso) {
           setIsAuthenticated(true); // está logueado...
           setAccessDenied(true);    // ...pero no puede ver esta ruta
+          setDenyReason("rol");
           setUser(userData);
           return;
         }
       }
 
-      // Verificar membresía activa si la ruta lo exige (admin siempre pasa)
-      if (requireActive && userData.rol !== "admin" && userData.estado !== "activo") {
-        setIsAuthenticated(true);
-        setAccessDenied(true);
-        setUser(userData);
-        return;
+      // Verificar membresía paga activa si la ruta lo exige (admin siempre pasa)
+      if (requireActive && userData.rol !== "admin") {
+        const membresiaResponse = await axios.get(
+          `${import.meta.env.VITE_API_URL}/membresia/mi-membresia`,
+          { withCredentials: true },
+        );
+
+        if (!membresiaResponse.data.activa) {
+          setIsAuthenticated(true);
+          setAccessDenied(true);
+          setDenyReason("membresia");
+          setUser(userData);
+          return;
+        }
       }
 
       setUser(userData);
@@ -60,9 +75,60 @@ const ProtectedRoute = ({ children, rolPermitido, requireActive = false }) => {
     }
   };
 
+  // Chequeo "silencioso" (sin tocar `loading`, para no tapar la app con el
+  // spinner mientras el usuario ya está trabajando adentro). Se usa en el
+  // polling periódico: si la membresía dejó de estar activa a mitad de
+  // sesión (se venció, se la cancelaron, se borró el pago, etc.), lo
+  // detecta y saca al usuario sin que tenga que recargar la página.
+  const revalidarMembresiaEnSilencio = async () => {
+    if (!requireActive) return;
+
+    try {
+      const meResponse = await axios.get(
+        `${import.meta.env.VITE_API_URL}/auth/me`,
+        { withCredentials: true },
+      );
+
+      const userData = meResponse.data.user;
+
+      // El admin siempre pasa, no hace falta chequear membresía.
+      if (userData.rol === "admin") return;
+
+      const membresiaResponse = await axios.get(
+        `${import.meta.env.VITE_API_URL}/membresia/mi-membresia`,
+        { withCredentials: true },
+      );
+
+      if (!membresiaResponse.data.activa) {
+        setAccessDenied(true);
+        setDenyReason("membresia");
+      }
+    } catch (error) {
+      // Si falla la sesión (401, etc.) directamente lo mandamos a login.
+      console.log("Chequeo de membresía falló:", error);
+      setIsAuthenticated(false);
+      setUser(null);
+    }
+  };
+
   useEffect(() => {
     checkAuth();
   }, [location.pathname]);
+
+  // Polling en segundo plano mientras el usuario está adentro de una
+  // página que exige membresía activa.
+  useEffect(() => {
+    if (!requireActive || loading || accessDenied || !isAuthenticated) {
+      return;
+    }
+
+    const interval = setInterval(
+      revalidarMembresiaEnSilencio,
+      INTERVALO_CHEQUEO_MEMBRESIA_MS,
+    );
+
+    return () => clearInterval(interval);
+  }, [requireActive, loading, accessDenied, isAuthenticated, location.pathname]);
 
 
   // Loading
@@ -102,9 +168,10 @@ const ProtectedRoute = ({ children, rolPermitido, requireActive = false }) => {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
-  // Con sesión pero sin permiso/membresía suficiente → perfil, no login
+  // Con sesión pero sin permiso/membresía suficiente
   if (accessDenied) {
-    return <Navigate to="/perfil" replace state={{ from: location }} />;
+    const destino = denyReason === "membresia" ? "/planes" : "/perfil";
+    return <Navigate to={destino} replace state={{ from: location }} />;
   }
 
   return children;

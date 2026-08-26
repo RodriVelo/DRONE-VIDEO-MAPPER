@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import passport from "./config/passport.js";
 import userRoutes from "./routes/userRoutes.js";
 import panelAdminRoutes from "./routes/panelAdminRoutes.js"
+import membresiaRoutes from "./routes/membresiaRoutes.js"
 
 
 const app = express();
@@ -23,6 +24,7 @@ app.use(cookieParser());
 app.use(`/auth`, authRoutes);
 app.use(`/user`, userRoutes);
 app.use(`/panelAdmin`, panelAdminRoutes)
+app.use(`/membresia`, membresiaRoutes)
 
 const PORT = process.env.PORT || 3000;
 

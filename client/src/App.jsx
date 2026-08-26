@@ -17,6 +17,8 @@ import Perfil from "./pages/user/perfil";
 import PanelAdminUsers from "./pages/admin/panelAdminUsers";
 import Aplicacion from "./pages/aplicacion/Aplicacion";
 import FOVCalibrator from "./pages/calibrador/calibrador";
+import Planes from "./pages/membresia/planes";
+import ResultadoMembresia from "./pages/membresia/resultado";
 
 import { AuthProvider } from "./utils/authContext";
 
@@ -75,6 +77,24 @@ function App() {
   element={
     <ProtectedRoute requireActive>
       <FOVCalibrator />
+    </ProtectedRoute>
+  }
+/>
+
+{/* Planes y resultado del pago: alcanza con estar logueado */}
+<Route
+  path="/planes"
+  element={
+    <ProtectedRoute>
+      <Planes />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/membresia/resultado"
+  element={
+    <ProtectedRoute>
+      <ResultadoMembresia />
     </ProtectedRoute>
   }
 />

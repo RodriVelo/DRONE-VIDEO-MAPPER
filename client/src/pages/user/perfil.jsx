@@ -1,4 +1,4 @@
-import { User, FileText, Mail, Phone, BadgeCheck, Pencil } from "lucide-react";
+import { User, FileText, Mail, Phone, BadgeCheck, Pencil, ShieldCheck, ShieldAlert, CreditCard } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PerfilEdit from "../../componentes/perfil/perfilEdit";
@@ -19,6 +19,8 @@ export default function Perfil() {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [sinTelefono, setSinTelefono] = useState(false);
+  const [membresia, setMembresia] = useState(null);
+  const [cargandoMembresia, setCargandoMembresia] = useState(true);
 
   useEffect(() => {
     const getUser = async () => {
@@ -37,7 +39,23 @@ export default function Perfil() {
         console.error(err);
       }
     };
+
+    const getMembresia = async () => {
+      try {
+        setCargandoMembresia(true);
+        const response = await axios.get(`${API}/membresia/mi-membresia`, {
+          withCredentials: true,
+        });
+        setMembresia(response.data.activa ? response.data.membresia : null);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setCargandoMembresia(false);
+      }
+    };
+
     getUser();
+    getMembresia();
   }, []);
 
   const initials = `${user.nombre?.[0] || ""}${user.apellido?.[0] || ""}`;
@@ -154,6 +172,50 @@ export default function Perfil() {
                 </div>
               </div>
             ))}
+
+            {/* Estado de la membresía */}
+            <div className="sm:col-span-2 rounded-2xl border border-slate-800 bg-[oklch(21%_0.006_285.885)] px-6 py-6 flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
+              <div className="flex items-center gap-4">
+                <div
+                  className={`shrink-0 w-10 h-10 rounded-xl flex items-center justify-center border ${
+                    membresia
+                      ? "bg-[#4ade80]/10 border-[#4ade80]/20"
+                      : "bg-yellow-500/10 border-yellow-500/20"
+                  }`}
+                >
+                  {membresia ? (
+                    <ShieldCheck size={16} className="text-[#4ade80]" />
+                  ) : (
+                    <ShieldAlert size={16} className="text-yellow-400" />
+                  )}
+                </div>
+                <div>
+                  <p className="text-slate-500 text-xs uppercase tracking-widest mb-0.5">
+                    Membresía
+                  </p>
+                  {cargandoMembresia ? (
+                    <p className="text-slate-500 text-sm">Consultando...</p>
+                  ) : membresia ? (
+                    <p className="text-white text-sm font-semibold capitalize">
+                      Plan {membresia.nombre} activo · vence el{" "}
+                      {new Date(membresia.fecha_fin).toLocaleDateString("es-AR")}
+                    </p>
+                  ) : (
+                    <p className="text-white text-sm font-semibold">
+                      No tenés una membresía activa
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <button
+                onClick={() => navigate("/planes")}
+                className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] border border-slate-700 transition-all duration-200 font-semibold text-white text-sm active:scale-95 shrink-0"
+              >
+                <CreditCard size={15} />
+                {membresia ? "Ver planes" : "Suscribirme"}
+              </button>
+            </div>
           </div>
 
         </div>
