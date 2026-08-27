@@ -37,7 +37,7 @@ export const getStats = async (req, res) => {
 
 
 export const cambiarEstadoUsuario = async (req, res) => {
-  console.log("llega pa")
+
   const nuevoEstado = req.body.estado;
   const id_user = req.params.id;
 

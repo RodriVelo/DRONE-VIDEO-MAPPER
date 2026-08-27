@@ -894,10 +894,7 @@ export default function App() {
     setFovNote(d.label);
     showToastMsg(`${d.label} aplicado`);
   }
-  function openFovCalibrator() {
-    const w = window.open("fov_calibrator.html", "_blank");
-    if (!w) showToastMsg("Abrí fov_calibrator.html en el navegador manualmente");
-  }
+
 
   /* ---------- handlers: suavizado ---------- */
   function handleSmoothChange(v) {
@@ -1351,12 +1348,7 @@ export default function App() {
                   className="w-[70px] bg-[#22263a] border border-white/10 rounded-md px-[6px] py-[3px] text-[11px] text-right focus:outline-none focus:border-[#4ade80]"
                 />
               </ParamRow>
-              <span
-                onClick={openFovCalibrator}
-                className="block text-[10px] text-[#60a5fa] cursor-pointer underline mt-1 hover:text-[#4ade80]"
-              >
-                ↗ Abrir FOV Calibrator
-              </span>
+             
             </div>
 
             {/* Crosshair / Escala */}

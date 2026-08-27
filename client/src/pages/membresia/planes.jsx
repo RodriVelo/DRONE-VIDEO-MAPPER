@@ -63,14 +63,14 @@ export default function Planes() {
             {error}
           </div>
         ) : esAdmin ? (
-          <PlanesAdmin planes={planes} setPlanes={setPlanes} />
-        ) : (
-          <PlanesCliente
-            planes={planes}
-            membresia={membresia}
-            vinoRedirigido={vinoRedirigido}
-          />
-        )}
+            <PlanesAdmin planes={planes} setPlanes={setPlanes} />
+          ) : (
+            <PlanesCliente
+              planes={planes.filter((p) => p.activo)}
+              membresia={membresia}
+              vinoRedirigido={vinoRedirigido}
+            />
+          )}
       </div>
     </div>
   );

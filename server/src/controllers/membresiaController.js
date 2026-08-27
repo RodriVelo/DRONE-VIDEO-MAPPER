@@ -4,7 +4,7 @@ import mpClient from "../config/mercadopago.js";
 import { pool } from "../db/connection.js";
 
 import {
-  getPlanesActivosModel,
+  getPlanesModel,
   getPlanByIdModel,
   getMembresiaActivaModel,
   getHistorialMembresiasModel,
@@ -21,7 +21,7 @@ import {
 // GET /membresia/planes
 export const getPlanes = async (req, res) => {
   try {
-    const planes = await getPlanesActivosModel();
+    const planes = await getPlanesModel();
 
     res.json({
       success: true,

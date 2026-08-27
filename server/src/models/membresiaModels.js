@@ -2,7 +2,7 @@ import { pool } from "../db/connection.js";
 
 // ================= PLANES =================
 
-export const getPlanesActivosModel = async () => {
+export const getPlanesModel = async () => {
   const [rows] = await pool.query(
     `SELECT id, nombre, descripcion, precio, duracion_dias, activo
      FROM membresia

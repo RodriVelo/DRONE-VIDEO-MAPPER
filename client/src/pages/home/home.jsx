@@ -322,7 +322,6 @@ export default function Home() {
         <Hero />
         <HowItWorks />
       </main>
-\
     </div>
   );
 }
