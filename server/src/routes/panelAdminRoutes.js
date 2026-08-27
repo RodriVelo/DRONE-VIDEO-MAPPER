@@ -1,12 +1,11 @@
 import express from "express";
+
 import {
   getStats,
   getUsers,
-  eliminarUsuario,
-} from "../controllers/panelAdminController.js";
-import {
   cambiarEstadoUsuario,
   editarPerfilUsuario,
+  eliminarUsuario,
 } from "../controllers/panelAdminUsersController.js";
 import { authenticateToken } from "../middleware/authMiddleware.js";
 
