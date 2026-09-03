@@ -38,7 +38,7 @@ export function PanelEditarUsuario({ usuario, onCerrar, onGuardar }) {
     setGuardando(true);
     try {
       const res = await axios.patch(
-        `${API}/panelAdmin/users/${usuario.id}/editarPerfil`,
+        `${API}/panelAdmin/users/${usuario.id}/editarPerfil`, {withCredentials:true},
         form
       );
       if (res.data.success) {
@@ -219,7 +219,7 @@ export default function PanelAdminUsers() {
 
   const eliminarUsuario = async (id) => {
   try {
-    const res = await axios.delete(`${API}/panelAdmin/users/${id}/eliminarUsuario`);
+    const res = await axios.delete(`${API}/panelAdmin/users/${id}/eliminarUsuario`, {withCredentials:true});
     if (res.data.success) {
       setUsuarios((prev) => prev.filter((u) => u.id !== id));
       toast.success("Usuario eliminado");

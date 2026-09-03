@@ -148,6 +148,7 @@ export const crearPlan = async (req, res) => {
 
 // POST /membresia/crear-preferencia   body: { idMembresia }
 export const crearPreferencia = async (req, res) => {
+  console.log(req.body)
   try {
     const { idMembresia } = req.body;
     const usuario = req.user;
