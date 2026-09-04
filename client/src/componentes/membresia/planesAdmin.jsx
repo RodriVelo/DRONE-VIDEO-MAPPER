@@ -8,6 +8,7 @@ import {
   Save,
   X,
   Power,
+  Plus,
 } from "lucide-react";
 
 const API = import.meta.env.VITE_API_URL;
@@ -303,7 +304,7 @@ const cancelarEdicion = () => {
       </div>
 
      {creandoNuevo && (
-        <div className="max-w-3xl mx-auto mb-4">
+        <div className="max-w-3xl mx-auto mb-4 my-10">
           <div className="rounded-2xl border border-slate-800 bg-[oklch(21%_0.006_285.885)] px-6 py-5">
             <FormularioPlan
               borrador={borradorPlan}
@@ -317,15 +318,16 @@ const cancelarEdicion = () => {
         </div>
       )}
 
-      <div>
-        <button
-          className="p-5 border rounded-xl bg-white"
-          onClick={empezarCreacion}
-          disabled={creandoNuevo}
-        >
-          Agregar membresía
-        </button>
-      </div>
+<div className="max-w-3xl mx-auto mt-10">
+  <button
+    onClick={empezarCreacion}
+    disabled={creandoNuevo}
+    className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl border border-dashed border-slate-700 text-slate-400 hover:text-[#4ade80] hover:border-[#4ade80]/40 hover:bg-[#4ade80]/5 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 font-semibold text-sm"
+  >
+    <Plus size={16} />
+    Agregar membresía
+  </button>
+</div>
     </>
   );
 }

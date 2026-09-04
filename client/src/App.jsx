@@ -19,6 +19,8 @@ import Aplicacion from "./pages/aplicacion/Aplicacion";
 import FOVCalibrator from "./pages/calibrador/calibrador";
 import Planes from "./pages/membresia/planes";
 import ResultadoMembresia from "./pages/membresia/resultado";
+import Contacto from "./pages/contacto/contacto";
+import About from "./pages/about/about";
 
 import { AuthProvider } from "./utils/authContext";
 
@@ -40,64 +42,66 @@ function App() {
         <Header />
 
         <Routes>
-         <Route path="/" element={<Home />} />
-<Route path="/signup" element={<Signup />} />
-<Route path="/login" element={<Login />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/contacto" element={<Contacto />}/>
+          <Route path="/about" element={<About />}/>
 
-{/* Con sesión alcanza, sin importar membresía */}
-<Route
-  path="/perfil"
-  element={
-    <ProtectedRoute>
-      <Perfil />
-    </ProtectedRoute>
-  }
-/>
+          {/* Con sesión alcanza, sin importar membresía */}
+          <Route
+            path="/perfil"
+            element={
+              <ProtectedRoute>
+                <Perfil />
+              </ProtectedRoute>
+            }
+          />
 
-<Route
-  path="/users"
-  element={
-    <ProtectedRoute rolPermitido="admin">
-      <PanelAdminUsers />
-    </ProtectedRoute>
-  }
-/>
+          <Route
+            path="/users"
+            element={
+              <ProtectedRoute rolPermitido="admin">
+                <PanelAdminUsers />
+              </ProtectedRoute>
+            }
+          />
 
-{/* Exigen membresía activa */}
-<Route
-  path="/aplicacion"
-  element={
-    <ProtectedRoute requireActive>
-      <Aplicacion />
-    </ProtectedRoute>
-  }
-/>
-<Route
-  path="/calibrador"
-  element={
-    <ProtectedRoute requireActive>
-      <FOVCalibrator />
-    </ProtectedRoute>
-  }
-/>
+          {/* Exigen membresía activa */}
+          <Route
+            path="/aplicacion"
+            element={
+              <ProtectedRoute requireActive>
+                <Aplicacion />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/calibrador"
+            element={
+              <ProtectedRoute requireActive>
+                <FOVCalibrator />
+              </ProtectedRoute>
+            }
+          />
 
-{/* Planes y resultado del pago: alcanza con estar logueado */}
-<Route
-  path="/planes"
-  element={
-    <ProtectedRoute>
-      <Planes />
-    </ProtectedRoute>
-  }
-/>
-<Route
-  path="/membresia/resultado"
-  element={
-    <ProtectedRoute>
-      <ResultadoMembresia />
-    </ProtectedRoute>
-  }
-/>
+          {/* Planes y resultado del pago: alcanza con estar logueado */}
+          <Route
+            path="/planes"
+            element={
+              <ProtectedRoute>
+                <Planes />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/membresia/resultado"
+            element={
+              <ProtectedRoute>
+                <ResultadoMembresia />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
 
         <Footer />

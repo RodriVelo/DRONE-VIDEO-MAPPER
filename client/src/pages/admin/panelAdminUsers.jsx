@@ -218,6 +218,7 @@ export default function PanelAdminUsers() {
   };
 
   const eliminarUsuario = async (id) => {
+    console.log(id)
   try {
     const res = await axios.delete(`${API}/panelAdmin/users/${id}/eliminarUsuario`, {withCredentials:true});
     if (res.data.success) {

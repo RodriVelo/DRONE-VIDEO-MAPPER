@@ -22,9 +22,9 @@ router.get("/historial", authenticateToken, getHistorial);
 router.post("/crear-preferencia", authenticateToken, crearPreferencia);
 
 
-router.put("/admin/editar-plan/:id", authenticateToken, authorize("admin"), editarPlan)
-router.delete("/admin/eliminar-membresia/:id", authenticateToken, authorize("admin"), eliminarMembresia)
-router.post("/admin/crear-plan", authorize("admin"), authenticateToken, crearPlan)
+router.put("/admin/editar-plan/:id", authenticateToken, authorize("admin"), editarPlan);
+router.delete("/admin/eliminar-membresia/:id", authenticateToken, authorize("admin"), eliminarMembresia);
+router.post("/admin/crear-plan", authenticateToken, authorize("admin"), crearPlan);
 // Ruta pública: la llama el servidor de Mercado Pago, no el usuario.
 // express.json() ya está montado global en app.js, MP manda JSON.
 router.post("/webhook", webhook);
